@@ -3,70 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>DPR Aviation | W&B Pro</title>
+    <title>DPR Aviation | Archer III N4297S</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;800&family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
         
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            background: #0f172a; 
-            color: #f8fafc;
-        }
-
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #0f172a; color: #f8fafc; }
         .mono { font-family: 'JetBrains Mono', monospace; }
-
-        .glass-card {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .input-field {
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(71, 85, 105, 1);
-            transition: all 0.2s;
-        }
-
-        .input-field:focus {
-            border-color: #38bdf8;
-            box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
-        }
-
-        .status-glow-safe { box-shadow: 0 0 20px rgba(34, 197, 94, 0.2); border: 1px solid rgba(34, 197, 94, 0.4); }
-        .status-glow-danger { box-shadow: 0 0 25px rgba(239, 68, 68, 0.4); border: 1px solid rgba(239, 68, 68, 0.6); animation: pulse-red 2s infinite; }
-
-        @keyframes pulse-red {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.01); }
-            100% { transform: scale(1); }
-        }
-
-        input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; }
+        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .input-field { background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(71, 85, 105, 1); transition: all 0.2s; color: #38bdf8; }
+        .input-field:focus { border-color: #38bdf8; box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2); outline: none; }
+        .section-label { font-size: 11px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.1em; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem; margin-bottom: 1rem; display: block; }
         
-        .member-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 0.5rem;
-        }
-
-        @media (max-width: 640px) {
-            .member-list { grid-template-columns: 1fr; }
-            .header-logo { width: 40px; height: 40px; }
-        }
+        .status-glow-safe { border: 1px solid rgba(34, 197, 94, 0.4); box-shadow: 0 0 20px rgba(34, 197, 94, 0.1); }
+        .status-glow-danger { border: 1px solid rgba(239, 68, 68, 0.5); box-shadow: 0 0 25px rgba(239, 68, 68, 0.2); }
+        
+        input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; }
+        .member-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.5rem; }
     </style>
 </head>
-<body class="min-h-screen pb-10">
+<body class="min-h-screen pb-10" onload="calc()">
 
     <header class="bg-slate-900/50 border-b border-slate-800 px-6 py-4 flex justify-between items-center sticky top-0 z-50 backdrop-blur-md">
         <div class="flex items-center gap-4">
-            <div class="h-12 w-12 rounded-full overflow-hidden border-2 border-sky-500 bg-white shadow-lg flex-shrink-0">
+            <div class="h-10 w-10 md:h-12 md:w-12 rounded-full overflow-hidden border-2 border-sky-500 bg-white shadow-lg">
                 <img src="logo.jpg" alt="DPR Logo" class="w-full h-full object-cover">
             </div>
             <div>
-                <h1 class="text-base md:text-lg font-800 tracking-tight leading-none">DPR <span class="text-sky-400">AVIATION</span></h1>
-                <p class="text-[8px] md:text-[10px] uppercase tracking-widest text-slate-500 font-bold">W&B Performance Analysis</p>
+                <h1 class="text-sm md:text-lg font-800 tracking-tight leading-none uppercase">Piper <span class="text-sky-400">Archer III</span></h1>
+                <p class="text-[8px] md:text-[10px] uppercase tracking-widest text-slate-500 font-bold">Registration: N4297S</p>
             </div>
         </div>
     </header>
@@ -75,94 +41,109 @@
         
         <div id="statusBox" class="glass-card rounded-3xl p-6 transition-all duration-500 status-glow-safe">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                <div class="space-y-2">
-                    <div class="flex justify-between items-end">
+                <div class="space-y-3">
+                    <div class="flex justify-between">
                         <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Center of Gravity</label>
-                        <span id="badgeCG" class="text-[10px] px-2 py-0.5 rounded bg-green-500/20 text-green-400 font-bold">READY</span>
+                        <span id="badgeCG" class="text-[9px] px-2 py-0.5 rounded bg-green-500/20 text-green-400 font-bold">READY</span>
                     </div>
                     <div class="flex items-baseline gap-2">
-                        <span id="dispCG" class="text-5xl md:text-6xl font-800 mono tracking-tighter text-white">0.00</span>
-                        <span class="text-slate-500 font-bold text-sm italic">IN</span>
+                        <span id="dispCG" class="text-5xl md:text-6xl font-800 mono text-white">0.00</span>
+                        <span class="text-slate-500 font-bold text-sm italic underline decoration-sky-500">IN</span>
                     </div>
-                    <div class="w-full h-3 bg-slate-800 rounded-full overflow-hidden relative border border-slate-700">
+                    <div class="w-full h-3 bg-slate-900 rounded-full relative border border-slate-700">
                         <div id="cgPointer" class="absolute h-full w-2 bg-sky-400 shadow-[0_0_10px_#38bdf8] transition-all duration-500" style="left: 0%"></div>
                     </div>
                 </div>
-
-                <div class="space-y-2">
-                    <div class="flex justify-between items-end">
-                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Gross Weight</label>
-                        <span id="weightWarning" class="text-[10px] text-slate-500 font-bold">MAX 2,300</span>
-                    </div>
+                <div class="space-y-3">
+                    <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Gross Weight (Max 2550)</label>
                     <div class="flex items-baseline gap-2">
-                        <span id="dispWeight" class="text-4xl md:text-5xl font-800 mono tracking-tighter text-white">0</span>
-                        <span class="text-slate-500 font-bold text-sm italic">LBS</span>
+                        <span id="dispWeight" class="text-4xl md:text-5xl font-800 mono text-white">0</span>
+                        <span class="text-slate-500 font-bold text-sm italic underline decoration-indigo-500">LBS</span>
                     </div>
-                    <div class="w-full h-3 bg-slate-800 rounded-full overflow-hidden border border-slate-700">
+                    <div class="w-full h-3 bg-slate-900 rounded-full border border-slate-700 overflow-hidden">
                         <div id="weightBar" class="h-full bg-gradient-to-r from-sky-500 to-indigo-500 transition-all duration-500" style="width: 0%"></div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <section class="glass-card p-5 md:p-8 rounded-2xl">
-            <div class="flex items-center gap-2 mb-6">
-                <i class="fa-solid fa-list-check text-sky-400"></i>
-                <h2 class="text-sm font-800 uppercase tracking-wider">Weight & Balance Inputs</h2>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-                <div class="space-y-1.5">
-                    <label class="text-[10px] font-bold text-slate-400 ml-1 uppercase">Left Main Ldg</label>
-                    <input type="number" id="inL" value="0" oninput="calc()" class="input-field w-full p-3 rounded-xl font-bold mono outline-none">
+        <section class="glass-card p-6 rounded-3xl">
+            <label class="section-label"><i class="fa-solid fa-scale-balanced mr-2"></i> 1. Scale Readings (Empty Weight)</label>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-1.5">
+                        <label class="text-[10px] font-bold text-slate-400">Nose Wheel (lbs)</label>
+                        <input type="number" id="inN" value="340" oninput="calc()" class="input-field w-full p-3 rounded-xl font-bold mono text-center">
+                    </div>
+                    <div class="space-y-1.5">
+                        <label class="text-[10px] font-bold text-slate-400">Nose Arm (in)</label>
+                        <input type="number" id="armN" value="31.0" readonly class="input-field w-full p-3 rounded-xl font-bold mono text-center opacity-50 bg-slate-800/50">
+                    </div>
                 </div>
-                <div class="space-y-1.5">
-                    <label class="text-[10px] font-bold text-slate-400 ml-1 uppercase">Right Main Ldg</label>
-                    <input type="number" id="inR" value="0" oninput="calc()" class="input-field w-full p-3 rounded-xl font-bold mono outline-none">
-                </div>
-                <div class="space-y-1.5">
-                    <label class="text-[10px] font-bold text-slate-400 ml-1 uppercase">Nose Ldg</label>
-                    <input type="number" id="inN" value="0" oninput="calc()" class="input-field w-full p-3 rounded-xl font-bold mono outline-none">
-                </div>
-                <div class="space-y-1.5">
-                    <label class="text-[10px] font-bold text-sky-400 ml-1 uppercase">Fuel Load</label>
-                    <input type="number" id="inF" value="0" oninput="calc()" class="input-field w-full p-3 rounded-xl font-bold mono outline-none border-sky-500/30">
-                </div>
-                <div class="space-y-1.5">
-                    <label class="text-[10px] font-bold text-slate-400 ml-1 uppercase">Pilot</label>
-                    <input type="number" id="inP" value="0" oninput="calc()" class="input-field w-full p-3 rounded-xl font-bold mono outline-none">
-                </div>
-                <div class="space-y-1.5">
-                    <label class="text-[10px] font-bold text-slate-400 ml-1 uppercase">Co-Pilot</label>
-                    <input type="number" id="inC" value="0" oninput="calc()" class="input-field w-full p-3 rounded-xl font-bold mono outline-none">
-                </div>
-                <div class="space-y-1.5">
-                    <label class="text-[10px] font-bold text-slate-400 ml-1 uppercase">Baggage 1 & 2</label>
-                    <input type="number" id="inB" value="0" oninput="calc()" class="input-field w-full p-3 rounded-xl font-bold mono outline-none">
-                </div>
-                <div class="space-y-1.5">
-                    <label class="text-[10px] font-bold text-slate-400 ml-1 uppercase">Passenger</label>
-                    <input type="number" id="inPax" value="0" oninput="calc()" class="input-field w-full p-3 rounded-xl font-bold mono outline-none">
-                </div>
-            </div>
-
-            <div class="border-t border-slate-800 pt-6 grid grid-cols-2 gap-4">
-                <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-800/50">
-                    <p class="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Total Weight</p>
-                    <p class="text-xl font-800 mono text-sky-400"><span id="sumWeight">0</span> <span class="text-[10px] text-slate-600 uppercase">LBS</span></p>
-                </div>
-                <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-800/50">
-                    <p class="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Total Moment</p>
-                    <p class="text-xl font-800 mono text-indigo-400"><span id="sumMoment">0</span></p>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-1.5">
+                        <label class="text-[10px] font-bold text-slate-400">Main Gear (L+R lbs)</label>
+                        <div class="flex gap-2">
+                            <input type="number" id="inL" value="535" oninput="calc()" class="input-field w-1/2 p-3 rounded-xl font-bold mono text-center text-xs">
+                            <input type="number" id="inR" value="535" oninput="calc()" class="input-field w-1/2 p-3 rounded-xl font-bold mono text-center text-xs">
+                        </div>
+                    </div>
+                    <div class="space-y-1.5">
+                        <label class="text-[10px] font-bold text-slate-400">Main Arm (in)</label>
+                        <input type="number" id="armM" value="109.7" readonly class="input-field w-full p-3 rounded-xl font-bold mono text-center opacity-50 bg-slate-800/50">
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section class="glass-card p-6 md:p-8 rounded-3xl mt-12 border-t-4 border-t-sky-500">
-            <h2 class="text-lg font-800 text-white mb-1">Project Group 1</h2>
-            <p class="text-sky-400 text-[10px] font-bold uppercase tracking-widest mb-6">DPR AVIATION COLLEGE © 1976</p>
+        <section class="glass-card p-6 rounded-3xl">
+            <label class="section-label"><i class="fa-solid fa-users mr-2"></i> 2. Occupants</label>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="space-y-1.5">
+                    <label class="text-[10px] font-bold text-slate-400">Pilot (lbs)</label>
+                    <input type="number" id="inP" value="170" oninput="calc()" class="input-field w-full p-3 rounded-xl font-bold mono text-center">
+                </div>
+                <div class="space-y-1.5">
+                    <label class="text-[10px] font-bold text-slate-400">Passenger (lbs)</label>
+                    <input type="number" id="inPax" value="0" oninput="calc()" class="input-field w-full p-3 rounded-xl font-bold mono text-center">
+                </div>
+            </div>
+        </section>
+
+        <section class="glass-card p-6 rounded-3xl">
+            <label class="section-label"><i class="fa-solid fa-gas-pump mr-2"></i> 3. Fuel & Baggage</label>
+            <div class="grid grid-cols-3 gap-4">
+                <div class="space-y-1.5">
+                    <label class="text-[10px] font-bold text-slate-400">Fuel (Gals)</label>
+                    <input type="number" id="inF" value="48" oninput="calc()" class="input-field w-full p-3 rounded-xl font-bold mono text-center">
+                </div>
+                <div class="space-y-1.5">
+                    <label class="text-[10px] font-bold text-slate-400">Baggage 1 (lbs)</label>
+                    <input type="number" id="inB1" value="0" oninput="calc()" class="input-field w-full p-3 rounded-xl font-bold mono text-center">
+                </div>
+                <div class="space-y-1.5">
+                    <label class="text-[10px] font-bold text-slate-400">Baggage 2 (lbs)</label>
+                    <input type="number" id="inB2" value="0" oninput="calc()" class="input-field w-full p-3 rounded-xl font-bold mono text-center">
+                </div>
+            </div>
             
-            <div class="member-list text-[10px] text-slate-400 font-semibold uppercase tracking-wider">
+            <div class="mt-8 pt-6 border-t border-slate-800 grid grid-cols-2 gap-4">
+                <div class="p-4 bg-slate-900/50 rounded-2xl border border-slate-800">
+                    <p class="text-[9px] font-bold text-slate-500 uppercase">Total Moment</p>
+                    <p class="text-xl font-800 mono text-sky-400" id="sumMoment">0.0</p>
+                </div>
+                <div class="p-4 bg-slate-900/50 rounded-2xl border border-slate-800 text-right">
+                    <p class="text-[9px] font-bold text-slate-500 uppercase">Status</p>
+                    <p class="text-sm font-800" id="statusText">CALCULATING</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="glass-card p-6 md:p-8 rounded-[2rem] mt-12 overflow-hidden border-t-4 border-sky-500">
+            <h2 class="text-lg font-800 text-white mb-1 uppercase tracking-tight">Project Group 1</h2>
+            <p class="text-sky-400 text-[9px] font-black uppercase tracking-[0.2em] mb-8">DPR Aviation College • Class 1976</p>
+            
+            <div class="member-list text-[10px] text-slate-400 font-bold uppercase tracking-wide">
                 <div class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-sky-500"></div>LACANILAO AARON GABRIEL L.</div>
                 <div class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-sky-500"></div>QUIAMBAO AARON JOSH C.</div>
                 <div class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-sky-500"></div>BAUTISTA AJIAN POLO M.</div>
@@ -182,49 +163,77 @@
     </main>
 
     <script>
-        const LIMITS = { mtow: 2300, fwd: 82.0, aft: 93.0 };
-        const ARMS = { l: 90.0, r: 90.0, n: 40.0, f: 95.0, p: 80.5, c: 80.5, b: 135.0, pax: 110.0 };
+        // Piper Archer III (PA-28-181) Specific Constants
+        const LIMITS = { 
+            mtow: 2550, 
+            fwd: 82.0, 
+            aft: 93.0 
+        }; 
+
+        // PA-28 Archer III Fixed Station Arms
+        const STATIONS = {
+            frontSeats: 80.5,
+            fuel: 95.0,
+            baggage: 142.8
+        };
 
         function calc() {
+            // Section 1 Weights
+            const wN = parseFloat(document.getElementById('inN').value) || 0;
             const wL = parseFloat(document.getElementById('inL').value) || 0;
             const wR = parseFloat(document.getElementById('inR').value) || 0;
-            const wN = parseFloat(document.getElementById('inN').value) || 0;
-            const wF = parseFloat(document.getElementById('inF').value) || 0;
+            const aN = 31.0; 
+            const aM = 109.7;
+            
+            // Section 2 Weights (Pilot & Passenger)
             const wP = parseFloat(document.getElementById('inP').value) || 0;
-            const wC = parseFloat(document.getElementById('inC').value) || 0;
-            const wB = parseFloat(document.getElementById('inB').value) || 0;
             const wPax = parseFloat(document.getElementById('inPax').value) || 0;
+            
+            // Section 3 Weights (Fuel & Baggage 1 & 2)
+            const fGal = parseFloat(document.getElementById('inF').value) || 0;
+            const wFuel = fGal * 6;
+            const wB1 = parseFloat(document.getElementById('inB1').value) || 0;
+            const wB2 = parseFloat(document.getElementById('inB2').value) || 0;
 
-            const totalW = wL + wR + wN + wF + wP + wC + wB + wPax;
-            const totalM = (wL * ARMS.l) + (wR * ARMS.r) + (wN * ARMS.n) + (wF * ARMS.f) + 
-                           (wP * ARMS.p) + (wC * ARMS.c) + (wB * ARMS.b) + (wPax * ARMS.pax);
-
+            // Total Calculations
+            const totalW = wN + wL + wR + wP + wPax + wFuel + wB1 + wB2;
+            const totalM = (wN * aN) + ((wL + wR) * aM) + 
+                           ((wP + wPax) * STATIONS.frontSeats) + 
+                           (wFuel * STATIONS.fuel) + 
+                           ((wB1 + wB2) * STATIONS.baggage);
+            
             const cg = totalW > 0 ? (totalM / totalW) : 0;
 
-            document.getElementById('dispWeight').innerText = totalW.toLocaleString();
+            // UI Rendering
+            document.getElementById('dispWeight').innerText = Math.round(totalW).toLocaleString();
             document.getElementById('dispCG').innerText = cg.toFixed(2);
-            document.getElementById('sumWeight').innerText = totalW.toLocaleString();
-            document.getElementById('sumMoment').innerText = totalM.toLocaleString(undefined, {minimumFractionDigits: 1});
+            document.getElementById('sumMoment').innerText = totalM.toLocaleString(undefined, {maximumFractionDigits: 1});
 
-            const weightPercent = Math.min((totalW / LIMITS.mtow) * 100, 100);
-            document.getElementById('weightBar').style.width = weightPercent + "%";
+            // Bars logic
+            const wPerc = Math.min((totalW / LIMITS.mtow) * 100, 100);
+            document.getElementById('weightBar').style.width = wPerc + "%";
             
-            const cgRange = LIMITS.aft - LIMITS.fwd;
-            const cgPos = ((cg - LIMITS.fwd) / cgRange) * 100;
+            let cgPos = ((cg - LIMITS.fwd) / (LIMITS.aft - LIMITS.fwd)) * 100;
             document.getElementById('cgPointer').style.left = Math.max(0, Math.min(cgPos, 98)) + "%";
 
+            // Status Logic
             const isUnsafe = totalW > LIMITS.mtow || (totalW > 0 && (cg < LIMITS.fwd || cg > LIMITS.aft));
             const box = document.getElementById('statusBox');
             const badge = document.getElementById('badgeCG');
+            const statusTxt = document.getElementById('statusText');
 
             if (isUnsafe) {
-                box.classList.replace('status-glow-safe', 'status-glow-danger');
-                badge.innerText = "OUTSIDE LIMITS";
-                badge.className = "text-[10px] px-2 py-0.5 rounded bg-red-600 text-white font-bold";
+                box.className = "glass-card rounded-3xl p-6 transition-all duration-500 status-glow-danger";
+                badge.className = "text-[9px] px-2 py-0.5 rounded bg-red-600 text-white font-bold";
+                badge.innerText = "DANGER";
+                statusTxt.innerText = totalW > LIMITS.mtow ? "OVER WEIGHT" : "OUTSIDE CG";
+                statusTxt.className = "text-sm font-800 text-red-500";
             } else {
-                box.classList.replace('status-glow-danger', 'status-glow-safe');
-                badge.innerText = totalW > 0 ? "NORMAL" : "READY";
-                badge.className = "text-[10px] px-2 py-0.5 rounded bg-green-500/20 text-green-400 font-bold";
+                box.className = "glass-card rounded-3xl p-6 transition-all duration-500 status-glow-safe";
+                badge.className = "text-[9px] px-2 py-0.5 rounded bg-green-500/20 text-green-400 font-bold";
+                badge.innerText = "AIRWORTHY";
+                statusTxt.innerText = "AIRCRAFT SAFE";
+                statusTxt.className = "text-sm font-800 text-green-400";
             }
         }
     </script>
