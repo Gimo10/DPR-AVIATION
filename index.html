@@ -225,13 +225,13 @@
             if (isUnsafe) {
                 box.className = "glass-card rounded-3xl p-6 transition-all duration-500 status-glow-danger";
                 badge.className = "text-[9px] px-2 py-0.5 rounded bg-red-600 text-white font-bold";
-                badge.innerText = "DANGER";
+                badge.innerText = "OUTSIDE LIMIT";
                 statusTxt.innerText = totalW > LIMITS.mtow ? "OVER WEIGHT" : "OUTSIDE CG";
                 statusTxt.className = "text-sm font-800 text-red-500";
             } else {
                 box.className = "glass-card rounded-3xl p-6 transition-all duration-500 status-glow-safe";
                 badge.className = "text-[9px] px-2 py-0.5 rounded bg-green-500/20 text-green-400 font-bold";
-                badge.innerText = "AIRWORTHY";
+                badge.innerText = "NORMAL";
                 statusTxt.innerText = "AIRCRAFT SAFE";
                 statusTxt.className = "text-sm font-800 text-green-400";
             }
