@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>DPR Aviation | W&B Pro</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -50,18 +50,23 @@
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 0.5rem;
         }
+
+        @media (max-width: 640px) {
+            .member-list { grid-template-columns: 1fr; }
+            .header-logo { width: 40px; height: 40px; }
+        }
     </style>
 </head>
 <body class="min-h-screen pb-10">
 
     <header class="bg-slate-900/50 border-b border-slate-800 px-6 py-4 flex justify-between items-center sticky top-0 z-50 backdrop-blur-md">
         <div class="flex items-center gap-4">
-            <div class="h-12 w-12 rounded-full overflow-hidden border-2 border-sky-500 bg-white">
+            <div class="h-12 w-12 rounded-full overflow-hidden border-2 border-sky-500 bg-white shadow-lg flex-shrink-0">
                 <img src="logo.jpg" alt="DPR Logo" class="w-full h-full object-cover">
             </div>
             <div>
-                <h1 class="text-lg font-800 tracking-tight leading-none">DPR <span class="text-sky-400">AVIATION</span></h1>
-                <p class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">W&B Performance Analysis</p>
+                <h1 class="text-base md:text-lg font-800 tracking-tight leading-none">DPR <span class="text-sky-400">AVIATION</span></h1>
+                <p class="text-[8px] md:text-[10px] uppercase tracking-widest text-slate-500 font-bold">W&B Performance Analysis</p>
             </div>
         </div>
     </header>
@@ -73,17 +78,14 @@
                 <div class="space-y-2">
                     <div class="flex justify-between items-end">
                         <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Center of Gravity</label>
-                        <span id="badgeCG" class="text-[10px] px-2 py-0.5 rounded bg-green-500/20 text-green-400 font-bold">NORMAL</span>
+                        <span id="badgeCG" class="text-[10px] px-2 py-0.5 rounded bg-green-500/20 text-green-400 font-bold">READY</span>
                     </div>
                     <div class="flex items-baseline gap-2">
-                        <span id="dispCG" class="text-6xl font-800 mono tracking-tighter text-white">0.00</span>
+                        <span id="dispCG" class="text-5xl md:text-6xl font-800 mono tracking-tighter text-white">0.00</span>
                         <span class="text-slate-500 font-bold text-sm italic">IN</span>
                     </div>
                     <div class="w-full h-3 bg-slate-800 rounded-full overflow-hidden relative border border-slate-700">
-                        <div id="cgPointer" class="absolute h-full w-2 bg-sky-400 shadow-[0_0_10px_#38bdf8] transition-all duration-500" style="left: 50%"></div>
-                        <div class="absolute inset-0 flex justify-between px-2 text-[8px] font-bold text-slate-500 leading-3">
-                            <span>FWD</span><span>AFT</span>
-                        </div>
+                        <div id="cgPointer" class="absolute h-full w-2 bg-sky-400 shadow-[0_0_10px_#38bdf8] transition-all duration-500" style="left: 0%"></div>
                     </div>
                 </div>
 
@@ -93,7 +95,7 @@
                         <span id="weightWarning" class="text-[10px] text-slate-500 font-bold">MAX 2,300</span>
                     </div>
                     <div class="flex items-baseline gap-2">
-                        <span id="dispWeight" class="text-5xl font-800 mono tracking-tighter text-white">0</span>
+                        <span id="dispWeight" class="text-4xl md:text-5xl font-800 mono tracking-tighter text-white">0</span>
                         <span class="text-slate-500 font-bold text-sm italic">LBS</span>
                     </div>
                     <div class="w-full h-3 bg-slate-800 rounded-full overflow-hidden border border-slate-700">
@@ -103,114 +105,64 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div class="lg:col-span-2 space-y-4">
-                <section class="glass-card p-6 rounded-2xl">
-                    <div class="flex items-center gap-2 mb-6">
-                        <i class="fa-solid fa-weight-hanging text-sky-400"></i>
-                        <h2 class="text-sm font-800 uppercase tracking-wider">Loading Configuration</h2>
-                    </div>
-                    
-                    <div class="space-y-6">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div class="space-y-1.5">
-                                <label class="text-[11px] font-bold text-slate-400 ml-1">PAYLOAD WEIGHT</label>
-                                <div class="relative">
-                                    <input type="number" id="inPayW" value="0" oninput="calc()" class="input-field w-full p-3 rounded-xl font-bold mono text-lg outline-none">
-                                    <span class="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] text-slate-500 font-bold">LBS</span>
-                                </div>
-                            </div>
-                            <div class="space-y-1.5">
-                                <label class="text-[11px] font-bold text-slate-400 ml-1">PAYLOAD ARM</label>
-                                <div class="relative">
-                                    <input type="number" id="inPayA" value="100" oninput="calc()" class="input-field w-full p-3 rounded-xl font-bold mono text-lg outline-none">
-                                    <span class="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] text-slate-500 font-bold">IN</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div class="space-y-1.5">
-                                <label class="text-[11px] font-bold text-slate-400 ml-1 text-sky-400">FUEL LOAD (100LL)</label>
-                                <div class="relative">
-                                    <input type="number" id="inFuelW" value="0" oninput="calc()" class="input-field w-full p-3 rounded-xl font-bold mono text-lg outline-none border-sky-500/30">
-                                    <span class="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] text-slate-500 font-bold">LBS</span>
-                                </div>
-                            </div>
-                            <div class="space-y-1.5">
-                                <label class="text-[11px] font-bold text-slate-400 ml-1">FUEL ARM</label>
-                                <div class="relative">
-                                    <input type="number" id="inFuelA" value="95" oninput="calc()" class="input-field w-full p-3 rounded-xl font-bold mono text-lg outline-none">
-                                    <span class="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] text-slate-500 font-bold">IN</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <section class="bg-slate-900/80 border border-slate-800 p-4 rounded-2xl flex justify-around">
-                    <div class="text-center">
-                        <p class="text-[9px] text-slate-500 uppercase font-bold tracking-tighter">BEW Weight</p>
-                        <p class="text-sm mono font-bold">1,500 <span class="text-[10px] opacity-40">lbs</span></p>
-                    </div>
-                    <div class="text-center border-x border-slate-800 px-8">
-                        <p class="text-[9px] text-slate-500 uppercase font-bold tracking-tighter">BEW Arm</p>
-                        <p class="text-sm mono font-bold">85.0 <span class="text-[10px] opacity-40">in</span></p>
-                    </div>
-                    <div class="text-center">
-                        <p class="text-[9px] text-slate-500 uppercase font-bold tracking-tighter">Moment</p>
-                        <p class="text-sm mono font-bold">127,500</p>
-                    </div>
-                </section>
-            </div>
-
-            <div class="space-y-4">
-                <section class="glass-card p-6 rounded-2xl h-full border-l-4 border-l-amber-500">
-                    <h2 class="text-xs font-800 text-slate-400 uppercase tracking-widest mb-6">Structural Limits</h2>
-                    
-                    <div class="space-y-4">
-                        <div class="flex justify-between items-center p-3 bg-slate-800/50 rounded-xl border border-slate-700">
-                            <span class="text-[11px] font-bold text-slate-400">MTOW</span>
-                            <span class="mono font-bold text-amber-500 text-sm">2,300 LBS</span>
-                        </div>
-                        <div class="flex justify-between items-center p-3 bg-slate-800/50 rounded-xl border border-slate-700">
-                            <span class="text-[11px] font-bold text-slate-400">MZFW</span>
-                            <span class="mono font-bold text-slate-200 text-sm">2,100 LBS</span>
-                        </div>
-
-                        <div class="pt-4 grid grid-cols-2 gap-3">
-                            <div class="p-3 bg-slate-800/50 rounded-xl border border-slate-700 text-center">
-                                <p class="text-[9px] font-bold text-slate-500 uppercase">FWD LIMIT</p>
-                                <p class="text-sm mono font-bold text-sky-400">82.0</p>
-                            </div>
-                            <div class="p-3 bg-slate-800/50 rounded-xl border border-slate-700 text-center">
-                                <p class="text-[9px] font-bold text-slate-500 uppercase">AFT LIMIT</p>
-                                <p class="text-sm mono font-bold text-sky-400">93.0</p>
-                            </div>
-                        </div>
-
-                        <div class="mt-4 p-4 rounded-xl bg-sky-500/5 border border-sky-500/20">
-                            <p class="text-[10px] leading-relaxed text-slate-400 italic text-center">
-                                "Verify all data against current POH before flight."
-                            </p>
-                        </div>
-                    </div>
-                </section>
-            </div>
-        </div>
-
-        <section class="glass-card p-8 rounded-3xl mt-12 border-t-4 border-t-sky-500">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
-                <div>
-                    <h2 class="text-xl font-800 text-white">Project Group 1</h2>
-                    <p class="text-sky-400 text-xs font-bold uppercase tracking-widest">Development Team Members</p>
-                </div>
-                <div class="bg-slate-800/50 px-4 py-2 rounded-full border border-slate-700">
-                    <span class="text-xs font-bold text-slate-300">DPR AVIATION COLLEGE © 1976</span>
-                </div>
+        <section class="glass-card p-5 md:p-8 rounded-2xl">
+            <div class="flex items-center gap-2 mb-6">
+                <i class="fa-solid fa-list-check text-sky-400"></i>
+                <h2 class="text-sm font-800 uppercase tracking-wider">Weight & Balance Inputs</h2>
             </div>
             
-            <div class="member-list text-[11px] text-slate-400 font-semibold uppercase tracking-wider">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                <div class="space-y-1.5">
+                    <label class="text-[10px] font-bold text-slate-400 ml-1 uppercase">Left Main Ldg</label>
+                    <input type="number" id="inL" value="0" oninput="calc()" class="input-field w-full p-3 rounded-xl font-bold mono outline-none">
+                </div>
+                <div class="space-y-1.5">
+                    <label class="text-[10px] font-bold text-slate-400 ml-1 uppercase">Right Main Ldg</label>
+                    <input type="number" id="inR" value="0" oninput="calc()" class="input-field w-full p-3 rounded-xl font-bold mono outline-none">
+                </div>
+                <div class="space-y-1.5">
+                    <label class="text-[10px] font-bold text-slate-400 ml-1 uppercase">Nose Ldg</label>
+                    <input type="number" id="inN" value="0" oninput="calc()" class="input-field w-full p-3 rounded-xl font-bold mono outline-none">
+                </div>
+                <div class="space-y-1.5">
+                    <label class="text-[10px] font-bold text-sky-400 ml-1 uppercase">Fuel Load</label>
+                    <input type="number" id="inF" value="0" oninput="calc()" class="input-field w-full p-3 rounded-xl font-bold mono outline-none border-sky-500/30">
+                </div>
+                <div class="space-y-1.5">
+                    <label class="text-[10px] font-bold text-slate-400 ml-1 uppercase">Pilot</label>
+                    <input type="number" id="inP" value="0" oninput="calc()" class="input-field w-full p-3 rounded-xl font-bold mono outline-none">
+                </div>
+                <div class="space-y-1.5">
+                    <label class="text-[10px] font-bold text-slate-400 ml-1 uppercase">Co-Pilot</label>
+                    <input type="number" id="inC" value="0" oninput="calc()" class="input-field w-full p-3 rounded-xl font-bold mono outline-none">
+                </div>
+                <div class="space-y-1.5">
+                    <label class="text-[10px] font-bold text-slate-400 ml-1 uppercase">Baggage 1 & 2</label>
+                    <input type="number" id="inB" value="0" oninput="calc()" class="input-field w-full p-3 rounded-xl font-bold mono outline-none">
+                </div>
+                <div class="space-y-1.5">
+                    <label class="text-[10px] font-bold text-slate-400 ml-1 uppercase">Passenger</label>
+                    <input type="number" id="inPax" value="0" oninput="calc()" class="input-field w-full p-3 rounded-xl font-bold mono outline-none">
+                </div>
+            </div>
+
+            <div class="border-t border-slate-800 pt-6 grid grid-cols-2 gap-4">
+                <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-800/50">
+                    <p class="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Total Weight</p>
+                    <p class="text-xl font-800 mono text-sky-400"><span id="sumWeight">0</span> <span class="text-[10px] text-slate-600 uppercase">LBS</span></p>
+                </div>
+                <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-800/50">
+                    <p class="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Total Moment</p>
+                    <p class="text-xl font-800 mono text-indigo-400"><span id="sumMoment">0</span></p>
+                </div>
+            </div>
+        </section>
+
+        <section class="glass-card p-6 md:p-8 rounded-3xl mt-12 border-t-4 border-t-sky-500">
+            <h2 class="text-lg font-800 text-white mb-1">Project Group 1</h2>
+            <p class="text-sky-400 text-[10px] font-bold uppercase tracking-widest mb-6">DPR AVIATION COLLEGE © 1976</p>
+            
+            <div class="member-list text-[10px] text-slate-400 font-semibold uppercase tracking-wider">
                 <div class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-sky-500"></div>LACANILAO AARON GABRIEL L.</div>
                 <div class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-sky-500"></div>QUIAMBAO AARON JOSH C.</div>
                 <div class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-sky-500"></div>BAUTISTA AJIAN POLO M.</div>
@@ -230,55 +182,51 @@
     </main>
 
     <script>
-        const AIRCRAFT = { bewW: 1500, bewA: 85.0, mtow: 2300, mzfw: 2100, cgFwd: 82.0, cgAft: 93.0 };
-
-        function updateTime() {
-            const now = new Date();
-            document.getElementById('currentTime').innerText = now.toISOString().substr(11, 5) + " UTC";
-        }
-        setInterval(updateTime, 1000);
-        updateTime();
+        const LIMITS = { mtow: 2300, fwd: 82.0, aft: 93.0 };
+        const ARMS = { l: 90.0, r: 90.0, n: 40.0, f: 95.0, p: 80.5, c: 80.5, b: 135.0, pax: 110.0 };
 
         function calc() {
-            const pW = parseFloat(document.getElementById('inPayW').value) || 0;
-            const pA = parseFloat(document.getElementById('inPayA').value) || 0;
-            const fW = parseFloat(document.getElementById('inFuelW').value) || 0;
-            const fA = parseFloat(document.getElementById('inFuelA').value) || 0;
+            const wL = parseFloat(document.getElementById('inL').value) || 0;
+            const wR = parseFloat(document.getElementById('inR').value) || 0;
+            const wN = parseFloat(document.getElementById('inN').value) || 0;
+            const wF = parseFloat(document.getElementById('inF').value) || 0;
+            const wP = parseFloat(document.getElementById('inP').value) || 0;
+            const wC = parseFloat(document.getElementById('inC').value) || 0;
+            const wB = parseFloat(document.getElementById('inB').value) || 0;
+            const wPax = parseFloat(document.getElementById('inPax').value) || 0;
 
-            const totalW = AIRCRAFT.bewW + pW + fW;
-            const totalM = (AIRCRAFT.bewW * AIRCRAFT.bewA) + (pW * pA) + (fW * fA);
+            const totalW = wL + wR + wN + wF + wP + wC + wB + wPax;
+            const totalM = (wL * ARMS.l) + (wR * ARMS.r) + (wN * ARMS.n) + (wF * ARMS.f) + 
+                           (wP * ARMS.p) + (wC * ARMS.c) + (wB * ARMS.b) + (wPax * ARMS.pax);
+
             const cg = totalW > 0 ? (totalM / totalW) : 0;
 
             document.getElementById('dispWeight').innerText = totalW.toLocaleString();
             document.getElementById('dispCG').innerText = cg.toFixed(2);
+            document.getElementById('sumWeight').innerText = totalW.toLocaleString();
+            document.getElementById('sumMoment').innerText = totalM.toLocaleString(undefined, {minimumFractionDigits: 1});
 
-            const weightPercent = Math.min((totalW / AIRCRAFT.mtow) * 100, 100);
+            const weightPercent = Math.min((totalW / LIMITS.mtow) * 100, 100);
             document.getElementById('weightBar').style.width = weightPercent + "%";
             
-            const cgRange = AIRCRAFT.cgAft - AIRCRAFT.cgFwd;
-            const cgPosition = ((cg - AIRCRAFT.cgFwd) / cgRange) * 100;
-            const pointer = document.getElementById('cgPointer');
-            pointer.style.left = Math.max(0, Math.min(cgPosition, 98)) + "%";
+            const cgRange = LIMITS.aft - LIMITS.fwd;
+            const cgPos = ((cg - LIMITS.fwd) / cgRange) * 100;
+            document.getElementById('cgPointer').style.left = Math.max(0, Math.min(cgPos, 98)) + "%";
 
+            const isUnsafe = totalW > LIMITS.mtow || (totalW > 0 && (cg < LIMITS.fwd || cg > LIMITS.aft));
             const box = document.getElementById('statusBox');
-            const badgeCG = document.getElementById('badgeCG');
-            const isUnsafe = totalW > AIRCRAFT.mtow || cg < AIRCRAFT.cgFwd || cg > AIRCRAFT.cgAft;
+            const badge = document.getElementById('badgeCG');
 
             if (isUnsafe) {
                 box.classList.replace('status-glow-safe', 'status-glow-danger');
-                badgeCG.innerText = "OUTSIDE LIMITS";
-                badgeCG.classList.replace('bg-green-500/20', 'bg-red-500');
-                badgeCG.classList.replace('text-green-400', 'text-white');
-                document.getElementById('weightBar').classList.replace('from-sky-500', 'from-red-600');
+                badge.innerText = "OUTSIDE LIMITS";
+                badge.className = "text-[10px] px-2 py-0.5 rounded bg-red-600 text-white font-bold";
             } else {
                 box.classList.replace('status-glow-danger', 'status-glow-safe');
-                badgeCG.innerText = "NORMAL";
-                badgeCG.classList.replace('bg-red-500', 'bg-green-500/20');
-                badgeCG.classList.replace('text-white', 'text-green-400');
-                document.getElementById('weightBar').classList.replace('from-red-600', 'from-sky-500');
+                badge.innerText = totalW > 0 ? "NORMAL" : "READY";
+                badge.className = "text-[10px] px-2 py-0.5 rounded bg-green-500/20 text-green-400 font-bold";
             }
         }
-        calc();
     </script>
 </body>
 </html>
